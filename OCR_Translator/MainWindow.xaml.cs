@@ -1,7 +1,6 @@
 ﻿using OCR_Translator.Model;
 using OCR_Translator.Services;
 using OCR_Translator.Core;
-using OCR_Translator.Overlay;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,11 +8,13 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using static OCR_Translator.NativeWindowsHooks;
+using OCR_Translator.Interfaces;
+using OCR_Translator.View;
 
 
 namespace OCR_Translator
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IOverlaySettings
     {
         #region Variables for the NativeWindowsHooks
         // responsible for registering KEY DOWN event
@@ -32,10 +33,11 @@ namespace OCR_Translator
 
         #region Services
         private readonly TranslationService _translationService = new TranslationService();
+        private OverlayWindow _overlayWindow;
         #endregion
         #region Properties and fields
         // overlay visibility variable
-        private bool _isVisible = true;
+        private bool _isVisible = false;
 
         // holds initials for the languages (FROM - TO)
         private string _translateFrom = string.Empty;
@@ -113,7 +115,7 @@ namespace OCR_Translator
                     if (pressedKeyVK == VK_Prior)
                     {
                         //MessageBox.Show("THE BUTTON WORKS!");
-                        ToggleOverlayVisibility(_isVisible);
+                        ToggleOverlayVisibility();
                     }
                 }
                 return CallNextHookEx(hHook, nCode, wParam, lParam);
@@ -137,13 +139,23 @@ namespace OCR_Translator
         }
         #endregion
         #region First launch window settings
-        private void ToggleOverlayVisibility(bool isVisible)
+        private void ToggleOverlayVisibility()
         {
-            _isVisible = !_isVisible;
-            if (_isVisible)
-                Overlay.Show();
+            if (!_isVisible)
+            {
+                // if overlay is not visible, it creates a new object once and assigns it to the private variable
+                _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
+                _overlayWindow.Show();
+                
+                _isVisible = true;
+            }
             else
-                Overlay.Hide();
+            {
+                // it means the overlay window already exists, so it just toggles the view.
+                _isVisible = false;
+                _overlayWindow.Hide();
+            }
+
         }
         #endregion
 
@@ -153,6 +165,8 @@ namespace OCR_Translator
             // to do
             // write changes to config
             // make this window disappear and create the actual overlay
+            StartupWindow.Hide();
+            ToggleOverlayVisibility();
         }
         #endregion
         #region PropertyChanged

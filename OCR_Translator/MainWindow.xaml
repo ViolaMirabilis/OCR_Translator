@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:OCR_Translator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400"
-        x:Name="Overlay"
+        x:Name="StartupWindow"
         Topmost="True"
         WindowStartupLocation="CenterScreen">
     <Grid>
@@ -70,7 +70,7 @@
                             />
             </StackPanel>
 
-            <Button Content="Submit" Margin="25" Height="25"/>
+            <Button Content="Submit" Margin="25" Height="25" Command="{Binding SubmitConfigChanges}"/>
 
 
         </StackPanel>

@@ -4,11 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OCR_Translator"
+        xmlns:viewmodel="clr-namespace:OCR_Translator.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400"
         x:Name="StartupWindow"
         Topmost="True"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Visibility="{Binding IsWindowVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+    <Window.DataContext>
+        <viewmodel:MainWindowViewModel/>
+    </Window.DataContext>
+
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>

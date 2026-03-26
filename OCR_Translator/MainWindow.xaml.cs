@@ -12,20 +12,21 @@ using OCR_Translator.Interfaces;
 using OCR_Translator.View;
 using System.Configuration;
 using OCR_Translator.Config;
+using OCR_Translator.ViewModel;
 
 
 namespace OCR_Translator
 {
-    public partial class MainWindow : Window, IOverlaySettings
+    public partial class MainWindow : Window
     {
-        #region Configuration
-        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-        #endregion
         #region Variables for the NativeWindowsHooks
+
         // responsible for registering KEY DOWN event
         int WM_KEYDOWN = 0x0100;
+
         // defined key responsible for opening up the overlay (pg up in this case)
         int VK_Prior = 0x21;
+
         // WH_KEYBOARD_LL needed for LowLeveleyboardProc and SetWindowsHookEx
         private const int WH_KEYBOARD_LL = 13;
 
@@ -36,78 +37,17 @@ namespace OCR_Translator
 
         #endregion
 
-        #region Services
-        private readonly TranslationService _translationService = new TranslationService();
-        private OverlayWindow _overlayWindow;
-        private readonly ConfigService _configService = new ConfigService();
-        #endregion
-        #region Properties and fields
-        // overlay visibility variable
-        private bool _isVisible = false;
-
-        // holds initials for the languages (FROM - TO)
-        private string _translateFrom = string.Empty;
-        public string TranslateFrom
-        {
-            get => _translateFrom;
-            set { _translateFrom = value; OnPropertyChanged(); }
-        }
-        private string _translateTo = string.Empty;
-        public string TranslateTo
-        {
-            get => _translateTo;
-            set { _translateTo = value; OnPropertyChanged(); }
-        }
-        // bindable list of supported translation languages
-        public ObservableCollection<Language> SupportedTranslationLanguages { get; set; }
-        
-        //Bindable font size
-        private int _textBoxFontSize = 10;
-        public int TextBoxFontSize { get => _textBoxFontSize; set { _textBoxFontSize = value; OnPropertyChanged(); } }
-
-        // Bindable HEX for the textbox color
-        private string _textBoxColor = "#FFFFFF";
-        public string TextBoxColor { get => _textBoxColor; set { _textBoxColor = value; OnPropertyChanged();  } }
-
-        // Bindable HEX for the text color
-        private string _textColor = "#FFFFFF";
-        public string TextColor { get => _textColor; set { _textColor = value; OnPropertyChanged(); } }
-
-        // game's window width
-        private int _gameWidth = 1920;
-        public int GameWidth { get => _gameWidth; set { _gameWidth = value; OnPropertyChanged(); } }
-
-        // game's window height
-        private int _gameHeight = 1080;
-        public int GameHeight { get => _gameHeight; set { _gameHeight = value; OnPropertyChanged(); } }
-
-        // API KEY
-        private string _apiKey = string.Empty;
-        public string ApiKey { get => _apiKey; set { _apiKey = value; OnPropertyChanged(); } }
-        #endregion
-
-        #region Commands
-        public RelayCommand SubmitConfigChanges { get; set; }
-        #endregion
-
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;
             // @see: https://stackoverflow.com/questions/1556182/finding-the-handle-to-a-wpf-window
             // gets the current window handle (the main, transparent window)
             windowHandle = new WindowInteropHelper(this).Handle;
             // hooking into the current window
             InitialiseWindowHook(windowHandle);
-            SupportedTranslationLanguages = _translationService.InitialiseLanguageCollection();
 
-            SubmitConfigChanges = new RelayCommand(_ => SubmitChanges(), _ => true);
-
-
-            // Initialising the config file
-            _configService.LoadConfig(this);
-            
         }
+
 
         #region Methods related to hooking into the window
         // @see: https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/318804
@@ -129,8 +69,9 @@ namespace OCR_Translator
                     // if currently pressed key is equal to the key defined by us (page up in this case)
                     if (pressedKeyVK == VK_Prior)
                     {
-                        //MessageBox.Show("THE BUTTON WORKS!");
-                        ToggleOverlayVisibility();
+                        var vm = (MainWindowViewModel)this.DataContext;
+                        // calling the method directly from the view model
+                        vm.ToggleOverlayVisibility();
                     }
                 }
                 return CallNextHookEx(hHook, nCode, wParam, lParam);
@@ -153,48 +94,5 @@ namespace OCR_Translator
             }
         }
         #endregion
-        #region First launch window settings
-        private void ToggleOverlayVisibility()
-        {
-            if (!_isVisible)
-            {
-                // if overlay is not visible, it creates a new object once and assigns it to the private variable
-                _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
-                _overlayWindow.Show();
-                
-                _isVisible = true;
-            }
-            else
-            {
-                // it means the overlay window already exists, so it just toggles the view.
-                _isVisible = false;
-                _overlayWindow.Hide();
-            }
-
-        }
-
-        #endregion
-
-        #region Commands Logic
-        public void SubmitChanges()
-        {
-            // to do
-            // write changes to config
-            // make this window disappear and create the actual overlay
-            StartupWindow.Hide();
-            ToggleOverlayVisibility();
-
-            _configService.SaveConfig(this);
-        }
-        #endregion
-        #region PropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)        // can be overridden
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-
     }
 }

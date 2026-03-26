@@ -4,7 +4,7 @@ using System.Windows;
 namespace OCR_Translator.View;
 
 
-public partial class OverlayWindow : Window, IOverlaySettings
+public partial class OverlayWindow : Window
 {
     public int TextBoxFontSize { get; set; }
     public string TextBoxColor { get; set; }

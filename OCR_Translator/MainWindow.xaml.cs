@@ -11,6 +11,7 @@ using static OCR_Translator.NativeWindowsHooks;
 using OCR_Translator.Interfaces;
 using OCR_Translator.View;
 using System.Configuration;
+using OCR_Translator.Config;
 
 
 namespace OCR_Translator
@@ -38,6 +39,7 @@ namespace OCR_Translator
         #region Services
         private readonly TranslationService _translationService = new TranslationService();
         private OverlayWindow _overlayWindow;
+        private readonly ConfigService _configService = new ConfigService();
         #endregion
         #region Properties and fields
         // overlay visibility variable
@@ -71,15 +73,19 @@ namespace OCR_Translator
         private string _textColor = "#FFFFFF";
         public string TextColor { get => _textColor; set { _textColor = value; OnPropertyChanged(); } }
 
-        // Bindable HEX for the text color
+        // game's window width
         private int _gameWidth = 1920;
         public int GameWidth { get => _gameWidth; set { _gameWidth = value; OnPropertyChanged(); } }
 
-        // Bindable HEX for the text color
+        // game's window height
         private int _gameHeight = 1080;
         public int GameHeight { get => _gameHeight; set { _gameHeight = value; OnPropertyChanged(); } }
+
+        // API KEY
+        private string _apiKey = string.Empty;
+        public string ApiKey { get => _apiKey; set { _apiKey = value; OnPropertyChanged(); } }
         #endregion
-        
+
         #region Commands
         public RelayCommand SubmitConfigChanges { get; set; }
         #endregion
@@ -96,6 +102,11 @@ namespace OCR_Translator
             SupportedTranslationLanguages = _translationService.InitialiseLanguageCollection();
 
             SubmitConfigChanges = new RelayCommand(_ => SubmitChanges(), _ => true);
+
+
+            // Initialising the config file
+            _configService.LoadConfig(this);
+            
         }
 
         #region Methods related to hooking into the window
@@ -161,6 +172,7 @@ namespace OCR_Translator
             }
 
         }
+
         #endregion
 
         #region Commands Logic
@@ -171,6 +183,8 @@ namespace OCR_Translator
             // make this window disappear and create the actual overlay
             StartupWindow.Hide();
             ToggleOverlayVisibility();
+
+            _configService.SaveConfig(this);
         }
         #endregion
         #region PropertyChanged

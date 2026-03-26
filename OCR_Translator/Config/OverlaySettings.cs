@@ -55,7 +55,7 @@ public class OverlaySettings : ConfigurationSection, IOverlaySettings
         set { this[nameof(TranslateTo)] = value; }
     }
 
-    [ConfigurationProperty(nameof(TranslateTo), DefaultValue = "YOUR-API-KEY-GOES-HERE")]
+    [ConfigurationProperty(nameof(ApiKey), DefaultValue = "YOUR-API-KEY-GOES-HERE")]
     public string ApiKey
     {
         get { return (string)this[nameof(ApiKey)]; }

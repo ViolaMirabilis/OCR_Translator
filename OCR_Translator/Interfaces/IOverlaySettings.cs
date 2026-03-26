@@ -11,4 +11,7 @@ public interface IOverlaySettings
     public int GameWidth { get; set; }
 
     public int GameHeight { get; set; }
+    public string TranslateFrom { get; set; }
+    public string TranslateTo { get; set; }
+    public string ApiKey { get; set; }
 }

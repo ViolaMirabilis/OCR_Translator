@@ -1,0 +1,40 @@
+﻿using System.Windows.Input;
+
+namespace OCR_Translator.Core;
+public class RelayCommand : ICommand
+{
+    // these two store references to methods
+    private readonly Predicate<object> _canExecute;
+    private readonly Action<object> _execute;
+
+    /// <summary>
+    /// Whenever a new RelayCommand is created, the predicate and action are passed in and set as the backing fields.
+    /// </summary>
+    /// <param name="canExecute"></param>
+    /// <param name="execute"></param>
+    public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+    {
+        _canExecute = canExecute;
+        _execute = execute;
+    }
+
+    public event EventHandler? CanExecuteChanged;
+
+    public bool CanExecute(object? parameter)
+    {
+        return _canExecute(parameter!);     // the predicate<obj> is passed here
+    }
+
+    public void Execute(object? parameter)
+    {
+        _execute(parameter!);               // action<obj> passed here
+    }
+
+    /// <summary>
+    /// Used to re-check if the command can be executed (i.e. button is enabled/disabled)
+    /// </summary>
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
+}

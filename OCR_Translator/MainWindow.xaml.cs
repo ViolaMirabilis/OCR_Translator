@@ -1,17 +1,15 @@
-﻿using System.Runtime.InteropServices;
-using System.Text;
+﻿using OCR_Translator.Model;
+using OCR_Translator.Services;
+using OCR_Translator.Core;
+using OCR_Translator.Overlay;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Interop;
-using System.Security.Policy;
 using static OCR_Translator.NativeWindowsHooks;
+
 
 namespace OCR_Translator
 {
@@ -32,17 +30,66 @@ namespace OCR_Translator
 
         #endregion
 
+        #region Services
+        private readonly TranslationService _translationService = new TranslationService();
+        #endregion
+        #region Properties and fields
         // overlay visibility variable
         private bool _isVisible = true;
+
+        // holds initials for the languages (FROM - TO)
+        private string _translateFrom = string.Empty;
+        public string TranslateFrom
+        {
+            get => _translateFrom;
+            set { _translateFrom = value; OnPropertyChanged(); }
+        }
+        private string _translateTo = string.Empty;
+        public string TranslateTo
+        {
+            get => _translateTo;
+            set { _translateTo = value; OnPropertyChanged(); }
+        }
+        // bindable list of supported translation languages
+        public ObservableCollection<Language> SupportedTranslationLanguages { get; set; }
         
+        //Bindable font size
+        private int _textBoxFontSize = 10;
+        public int TextBoxFontSize { get => _textBoxFontSize; set { _textBoxFontSize = value; OnPropertyChanged(); } }
+
+        // Bindable HEX for the textbox color
+        private string _textBoxColor = "#FFFFFF";
+        public string TextBoxColor { get => _textBoxColor; set { _textBoxColor = value; OnPropertyChanged();  } }
+
+        // Bindable HEX for the text color
+        private string _textColor = "#FFFFFF";
+        public string TextColor { get => _textColor; set { _textColor = value; OnPropertyChanged(); } }
+
+        // Bindable HEX for the text color
+        private int _gameWidth = 1920;
+        public int GameWidth { get => _gameWidth; set { _gameWidth = value; OnPropertyChanged(); } }
+
+        // Bindable HEX for the text color
+        private int _gameHeight = 1080;
+        public int GameHeight { get => _gameHeight; set { _gameHeight = value; OnPropertyChanged(); } }
+        #endregion
+        
+        #region Commands
+        public RelayCommand SubmitConfigChanges { get; set; }
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             // @see: https://stackoverflow.com/questions/1556182/finding-the-handle-to-a-wpf-window
             // gets the current window handle (the main, transparent window)
             windowHandle = new WindowInteropHelper(this).Handle;
             // hooking into the current window
             InitialiseWindowHook(windowHandle);
+            SupportedTranslationLanguages = _translationService.InitialiseLanguageCollection();
+
+            SubmitConfigChanges = new RelayCommand(_ => SubmitChanges(), _ => true);
         }
 
         #region Methods related to hooking into the window
@@ -89,6 +136,7 @@ namespace OCR_Translator
             }
         }
         #endregion
+        #region First launch window settings
         private void ToggleOverlayVisibility(bool isVisible)
         {
             _isVisible = !_isVisible;
@@ -97,8 +145,24 @@ namespace OCR_Translator
             else
                 Overlay.Hide();
         }
+        #endregion
 
-        
+        #region Commands Logic
+        public void SubmitChanges()
+        {
+            // to do
+            // write changes to config
+            // make this window disappear and create the actual overlay
+        }
+        #endregion
+        #region PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)        // can be overridden
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+
 
     }
 }

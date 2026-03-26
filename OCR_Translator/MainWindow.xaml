@@ -5,10 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OCR_Translator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="450" Width="400"
         x:Name="Overlay"
-        Topmost="True">
+        Topmost="True"
+        WindowStartupLocation="CenterScreen">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" 
+                   Text="Overlay settings"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="24">
+            
+        </TextBlock>
+            
+            <StackPanel Grid.Row="1"
+                        Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        Margin="10">
+                <StackPanel>
+                    <TextBlock Text="Font size: "/>
+                <TextBox Width="150" HorizontalContentAlignment="Center" Height="20" Text="{Binding TextBoxFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
 
+            <StackPanel>
+                <TextBlock Text="Text color: "/>
+                <TextBox Width="150" HorizontalContentAlignment="Center" Height="20" Text="{Binding TextColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="TextBox color: "/>
+                <TextBox Width="150" HorizontalContentAlignment="Center" Height="20" Text="{Binding TextBoxColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Game resolution: "/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox Width="67" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Text="{Binding GameWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="x"/>
+                    <TextBox Width="67" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Height="20" Text="{Binding GameHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Translate from: "/>
+                <ComboBox Width="150" HorizontalContentAlignment="Center"
+                          ItemsSource="{Binding SupportedTranslationLanguages}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Initials"
+                          SelectedValue="{Binding TranslateFrom}"
+                          />
+            </StackPanel>
+ 
+            <StackPanel>
+                <TextBlock Text="Translate to: "/>
+                <ComboBox Width="150" HorizontalContentAlignment="Center"
+                          ItemsSource="{Binding SupportedTranslationLanguages}"
+                            DisplayMemberPath="Name"
+                            SelectedValuePath="Initials"
+                            SelectedValue="{Binding TranslateTo}"
+                            />
+            </StackPanel>
+
+            <Button Content="Submit" Margin="25" Height="25"/>
+
+
+        </StackPanel>
+            
     </Grid>
 </Window>

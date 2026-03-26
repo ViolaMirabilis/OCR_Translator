@@ -27,6 +27,7 @@ public static class NativeWindowsHooks
     public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
     // needed for the lParam in the CallNextHookEx, to determine that the pressed key is right (i.e. "user pressed page up? do this")
+    // worked around with the Marshal.ReadInt32
     public struct KBDLLHOOKSTRUCT(uint vkCode, uint scanCode, uint flags, uint time, ulong dwExtraInfo);
 
 }

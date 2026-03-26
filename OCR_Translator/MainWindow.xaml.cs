@@ -46,6 +46,10 @@ namespace OCR_Translator
             // hooking into the current window
             InitialiseWindowHook(windowHandle);
 
+            var vm = (MainWindowViewModel)this.DataContext;
+
+            // hiding the window when the event is invoked
+            vm.OnSubmitClicked += () => HideWindow();
         }
 
 
@@ -94,5 +98,10 @@ namespace OCR_Translator
             }
         }
         #endregion
+
+        private void HideWindow()
+        {
+            StartupWindow.Hide();
+        }
     }
 }

@@ -16,7 +16,8 @@ namespace OCR_Translator.ViewModel;
 
 public class MainWindowViewModel : IOverlaySettings
 {
-
+    // Action event which is triggered once the "Submit" button is pressed
+    public event Action OnSubmitClicked;
     #region Configuration
     private readonly Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
     #endregion
@@ -100,7 +101,6 @@ public class MainWindowViewModel : IOverlaySettings
     public void ToggleOverlayVisibility()
     {
         // turns off the "settings" window once
-        IsWindowVisible = false;
         if (!_isOverlayVisible)
         {
             // if overlay is not visible, it creates a new object once and assigns it to the private variable
@@ -127,7 +127,8 @@ public class MainWindowViewModel : IOverlaySettings
         // write changes to config
         // make this window disappear and create the actual overlay
         ToggleOverlayVisibility();
-
+        // invoking the event here
+        OnSubmitClicked.Invoke();
         _configService.SaveConfig(this);
     }
     #endregion

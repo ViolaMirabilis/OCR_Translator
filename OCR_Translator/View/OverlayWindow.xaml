@@ -14,7 +14,7 @@
 
     <Grid>
         <Canvas x:Name="OverlayCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent">
-            <Label Content="OVERLAY IS ON" FontSize="14" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Content="OVERLAY IS ON" FontSize="14" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Canvas>
     </Grid>
 </Window>

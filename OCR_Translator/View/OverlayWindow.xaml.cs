@@ -19,7 +19,6 @@ public partial class OverlayWindow : Window, IOverlaySettings
         GameWidth = width;
         GameHeight = height;
 
-
         InitializeComponent();
         InitializeSettingsFromConfig();
 

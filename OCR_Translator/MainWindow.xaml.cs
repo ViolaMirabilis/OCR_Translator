@@ -10,12 +10,16 @@ using System.Windows.Interop;
 using static OCR_Translator.NativeWindowsHooks;
 using OCR_Translator.Interfaces;
 using OCR_Translator.View;
+using System.Configuration;
 
 
 namespace OCR_Translator
 {
     public partial class MainWindow : Window, IOverlaySettings
     {
+        #region Configuration
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        #endregion
         #region Variables for the NativeWindowsHooks
         // responsible for registering KEY DOWN event
         int WM_KEYDOWN = 0x0100;

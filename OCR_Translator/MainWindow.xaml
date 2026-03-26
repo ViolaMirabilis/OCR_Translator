@@ -70,6 +70,11 @@
                             />
             </StackPanel>
 
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="API Key:"/>
+                <PasswordBox FontSize="8" Height="20" Width="150" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
             <Button Content="Submit" Margin="25" Height="25" Command="{Binding SubmitConfigChanges}"/>
 
 

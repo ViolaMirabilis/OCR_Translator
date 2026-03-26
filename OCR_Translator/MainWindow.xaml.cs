@@ -11,12 +11,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Interop;
 using System.Security.Policy;
+using static OCR_Translator.NativeWindowsHooks;
 
 namespace OCR_Translator
 {
     public partial class MainWindow : Window
     {
-        #region Native Windows Hooks
+        #region Variables for the NativeWindowsHooks
         // responsible for registering KEY DOWN event
         int WM_KEYDOWN = 0x0100;
         // defined key responsible for opening up the overlay (pg up in this case)
@@ -29,29 +30,8 @@ namespace OCR_Translator
         // the key down basically
         HookProc KeyboardHookProcedure;
 
-        // needed for SetWindowsHookEx function
-        // wParam = nonzero if some message is sent by the current process, 0 if null
-        // lParam = details about the message that was sent (keycode[?])
-        // this is the LowLevelKeyboardProc
-        public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
-
-        // attachess a hook to a given process and listens for event on the thread it's ran on
-        // utilises the WH_KEYBOARD_LL hook
-        [DllImport("user32.dll")]
-        private static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
-
-        // unhooks once the program is shut down, so the general system settings remain unchanged
-        [DllImport("user32.dll")]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        // no input blocking behaviour
-        [DllImport("user32.dll")]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-        // needed for the lParam in the CallNextHookEx, to determine that the pressed key is right (i.e. "user pressed page up? do this")
-        private struct KBDLLHOOKSTRUCT(uint vkCode, uint scanCode, uint flags, uint time, ulong dwExtraInfo);
-
         #endregion
+
         // overlay visibility variable
         private bool _isVisible = true;
         
@@ -65,6 +45,7 @@ namespace OCR_Translator
             InitialiseWindowHook(windowHandle);
         }
 
+        #region Methods related to hooking into the window
         // @see: https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/318804
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
@@ -107,6 +88,7 @@ namespace OCR_Translator
                 }
             }
         }
+        #endregion
         private void ToggleOverlayVisibility(bool isVisible)
         {
             _isVisible = !_isVisible;

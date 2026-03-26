@@ -18,7 +18,7 @@ public class MainWindowViewModel : IOverlaySettings
 {
 
     #region Configuration
-    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+    private readonly Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
     #endregion
 
 
@@ -99,6 +99,8 @@ public class MainWindowViewModel : IOverlaySettings
     #region First launch window settings
     public void ToggleOverlayVisibility()
     {
+        // turns off the "settings" window once
+        IsWindowVisible = false;
         if (!_isOverlayVisible)
         {
             // if overlay is not visible, it creates a new object once and assigns it to the private variable
@@ -124,7 +126,6 @@ public class MainWindowViewModel : IOverlaySettings
         // to do
         // write changes to config
         // make this window disappear and create the actual overlay
-        IsWindowVisible = false;
         ToggleOverlayVisibility();
 
         _configService.SaveConfig(this);

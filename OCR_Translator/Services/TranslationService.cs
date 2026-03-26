@@ -13,6 +13,7 @@ public class TranslationService
         return new ObservableCollection<Language> {
             new Language { Name = "English", Initials = "En-us" },
             new Language { Name = "Thai", Initials = "Th-th" },
+            new Language { Name = "Test", Initials = "Test" },
             new Language { Name = "Korean", Initials = "Kr-kr" } };
     }
 }

@@ -100,10 +100,17 @@ public class TranslationService
     {
         string[] sentences = allLinesCombined.Split("@#$");
         int index = 0;
-        foreach (var word in textboxlist)
+        try
         {
-            // replaces the text and increases the index
-            word.Text = sentences[index++];
+            foreach (var word in textboxlist)
+            {
+                // replaces the text and increases the index
+                word.Text = sentences[index++];
+            }
+        }
+        catch
+        {
+
         }
     }
 }

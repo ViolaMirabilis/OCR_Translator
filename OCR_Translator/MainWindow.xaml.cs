@@ -56,6 +56,8 @@ namespace OCR_Translator
         #region Methods related to hooking into the window
         // @see: https://www.betaarchive.com/wiki/index.php/Microsoft_KB_Archive/318804
         private IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
+        
+        
         {
             if (nCode < 0)
             {
@@ -78,7 +80,9 @@ namespace OCR_Translator
                         vm.ToggleOverlayVisibility();
                     }
                 }
+                
                 return CallNextHookEx(hHook, nCode, wParam, lParam);
+        
             }
         }
         private void InitialiseWindowHook(IntPtr windowHandle)

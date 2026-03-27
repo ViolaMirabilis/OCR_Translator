@@ -56,7 +56,7 @@ public class ScreenshotService
         byte[] screenshotBytes = ms.ToArray();
         var base64Screenshot = Convert.ToBase64String(screenshotBytes);
         // deletes the tmp screenshot
-        DeleteTmpScrenshot();
+        //DeleteTmpScrenshot();
         return base64Screenshot;
 
         

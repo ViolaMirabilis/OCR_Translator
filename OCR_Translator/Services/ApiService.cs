@@ -65,10 +65,11 @@ public class ApiService
             }
 
             string result = await response.Content.ReadAsStringAsync();
-            var deserialized = JsonSerializer.Deserialize<LibreTranslateResponse>(result);
-
-            System.IO.File.WriteAllText(@"C:\Users\zajac\Desktop\lines.txt", deserialized.TranslatedText);
-            return deserialized.TranslatedText;
+            //var deserialized = JsonSerializer.Deserialize<LibreTranslateResponse>(result);
+            //var deserializedText = deserialized.TranslatedText;
+            //System.IO.File.WriteAllText(@"C:\Users\zajac\Desktop\lines.txt", deserialized.TranslatedText);
+            System.IO.File.WriteAllText(@"C:\Users\zajac\Desktop\lines.txt", result);
+            return result;
         }
         catch (Exception ex)
         {

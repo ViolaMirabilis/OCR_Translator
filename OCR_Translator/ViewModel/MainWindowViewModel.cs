@@ -28,6 +28,7 @@ public class MainWindowViewModel : IOverlaySettings
     private OverlayWindow _overlayWindow;
     private readonly ConfigService _configService;
     private readonly ScreenshotService _screenshotService;
+    private readonly ApiService _apiService;
     #endregion
 
     #region Properties and fields
@@ -83,10 +84,12 @@ public class MainWindowViewModel : IOverlaySettings
         _translationService = new TranslationService();
         _configService = new ConfigService();
         _screenshotService = new ScreenshotService();
+        _apiService = new ApiService();
         SubmitConfigChanges = new RelayCommand(_ => SubmitChanges(), _ => true);
 
         InitializeLanguagesCollection();
         InitializeConfigFile();
+        SetApiKey();
     }
 
     public void InitializeLanguagesCollection()
@@ -100,7 +103,7 @@ public class MainWindowViewModel : IOverlaySettings
     }
     
     #region First launch window settings
-    public void ToggleOverlayVisibility()
+    public async Task ToggleOverlayVisibility()
     {
         // turns off the "settings" window once
         if (!_isOverlayVisible)
@@ -112,7 +115,7 @@ public class MainWindowViewModel : IOverlaySettings
             // shows the overlay immediately
             _overlayWindow.Show();
             // makes the request to the API
-            SendBase64ToApi(base64);
+            await SendBase64ToApi(base64);
 
             _isOverlayVisible = true;
         }
@@ -132,7 +135,12 @@ public class MainWindowViewModel : IOverlaySettings
         // serializes it
         string serializedJson = request.Serialize();
         // sends it asynchronously
+        await _apiService.SendBase64Async(serializedJson);
+    }
 
+    public void SetApiKey()
+    {
+        _apiService.SetApiKey(ApiKey);
     }
 
     #endregion

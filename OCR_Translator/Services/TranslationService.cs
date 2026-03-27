@@ -90,7 +90,7 @@ public class TranslationService
         foreach (var word in list)
         {
             // appends the SB with the word and the "Separator"
-            allLinesCombined.Append($"{word.Text}@#$");
+            allLinesCombined.Append($"{word.Text}\n");
         }
 
         return allLinesCombined.ToString();
@@ -98,7 +98,7 @@ public class TranslationService
 
     public void ReplaceOriginalTextWithTranslation(List<OverlayTextbox> textboxlist, string allLinesCombined)
     {
-        string[] sentences = allLinesCombined.Split("@#$");
+        string[] sentences = allLinesCombined.Split("\\n");
         int index = 0;
         try
         {

@@ -13,6 +13,7 @@ using OCR_Translator.View;
 using System.Configuration;
 using OCR_Translator.Config;
 using OCR_Translator.ViewModel;
+using System.Security.Policy;
 
 
 namespace OCR_Translator
@@ -77,6 +78,7 @@ namespace OCR_Translator
                     {
                         var vm = (MainWindowViewModel)this.DataContext;
                         // calling the method directly from the view model
+                        // change this to an event?
                         vm.ToggleOverlayVisibility();
                     }
                 }

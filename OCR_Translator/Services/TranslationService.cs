@@ -17,7 +17,7 @@ public class TranslationService
         return new ObservableCollection<Language> {
             new Language { Name = "English", Initials = "en" },
             new Language { Name = "Thai", Initials = "th" },
-            new Language { Name = "Korean", Initials = "kr" } };
+            new Language { Name = "Korean", Initials = "ko" } };
     }
 
     // takes in the Cloud Vision API as a response

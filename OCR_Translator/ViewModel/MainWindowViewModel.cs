@@ -111,22 +111,22 @@ public class MainWindowViewModel : IOverlaySettings
         // turns off the "settings" window once
         if (!_isOverlayVisible)
         {
-            // converts image to base64
+            // takes a screenshot and converts image to base64
             string base64 = _screenshotService.TakeScreenshot(GameWidth, GameHeight);
 
+            // after the async request is completed, it shows the overlay immediately (without awaiting for the base64 first)
+            // if overlay is not visible, it creates a new object once and assigns it to the private variable
+            //_overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight, originalText);
+            _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
+            
+            // shows the overlay immediately
+            _isOverlayVisible = true;
+            _overlayWindow.Show();
+            
             // makes the request to the API. 
             await SendBase64ToApi(base64);
 
-            // after the async request is completed, it shows the overlay.
-            // if overlay is not visible, it creates a new object once and assigns it to the private variable
-            _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight, originalText);
-            //_overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
-
-            
-            // shows the overlay immediately
-            _overlayWindow.Show();
-
-            _isOverlayVisible = true;
+            _overlayWindow.PutAllTextboxesOnCanvas(originalText); 
         }
         else
         {
@@ -139,6 +139,8 @@ public class MainWindowViewModel : IOverlaySettings
 
     public async Task SendBase64ToApi(string base64)
     {
+        // clears out the list
+        originalText = new List<OverlayTextbox>();
         // creates a new request
         CloudVisionRequest request = new CloudVisionRequest(base64);
         // serializes it
@@ -157,7 +159,8 @@ public class MainWindowViewModel : IOverlaySettings
         // replace original with the translation
         _translationService.ReplaceOriginalTextWithTranslation(originalText, translatedText);
 
-
+        allLinesCombined = string.Empty;     //reseting all the lines
+        // replacing it with a new list
     }
 
     public void SetApiKey()
@@ -170,12 +173,13 @@ public class MainWindowViewModel : IOverlaySettings
     #region Commands Logic
     public async Task SubmitChanges()
     {
-        // to do
+        // invoking the event here
+        // turns off the "startup" window
+        OnSubmitClicked.Invoke();
+
         // write changes to config
         // make this window disappear and create the actual overlay
         await ToggleOverlayVisibility();
-        // invoking the event here
-        OnSubmitClicked.Invoke();
         _configService.SaveConfig(this);
     }
     #endregion

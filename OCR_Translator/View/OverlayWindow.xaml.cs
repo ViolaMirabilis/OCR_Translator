@@ -13,14 +13,12 @@ namespace OCR_Translator.View;
 
 public partial class OverlayWindow : Window
 {
-
     public int TextBoxFontSize { get; set; }
     public string TextBoxColor { get; set; }
     public string TextColor { get; set; }
     public int GameWidth { get; set; }
     public int GameHeight { get; set; }
-    public List<OverlayTextbox> OverlayTextboxCollection { get; private set; } = new List<OverlayTextbox>();
-    public OverlayWindow(int fontSize, string tbColor, string txtColor, int width, int height, List<OverlayTextbox> overlayTextboxCollection)
+    public OverlayWindow(int fontSize, string tbColor, string txtColor, int width, int height)
     {
         InitializeComponent();
         TextBoxFontSize = fontSize;
@@ -28,11 +26,8 @@ public partial class OverlayWindow : Window
         TextColor = txtColor;
         GameWidth = width;
         GameHeight = height;
-        OverlayTextboxCollection = overlayTextboxCollection;
-
         
         InitializeSettingsFromConfig();
-        PutAllTextboxesOnCanvas();
     }
 
     private void InitializeSettingsFromConfig()
@@ -45,18 +40,18 @@ public partial class OverlayWindow : Window
         DataContext = this;
     }
 
-    private void PutAllTextboxesOnCanvas()
+    public void PutAllTextboxesOnCanvas(List<OverlayTextbox> overlayTextboxCollection)
     {
-        foreach (var sentence in OverlayTextboxCollection)
+        foreach (var sentence in overlayTextboxCollection)
         {
             PutTextboxOnCanvas(sentence);
         }
     }
     private void PutTextboxOnCanvas(OverlayTextbox textbox)
     {
-        Border border = new Border { Height = 14, Width = textbox.Text.Length * 7, CornerRadius = new CornerRadius(5), Background = Brushes.White, Opacity = 0.95 };
+        Border border = new Border { Height = 12, Width = textbox.Text.Length * 7, CornerRadius = new CornerRadius(5), Background = Brushes.White, Opacity = 0.95 };
         // textblock that will be inside the border
-        TextBlock textblock = new TextBlock { Foreground = Brushes.Black, FontSize = 10, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Text = textbox.Text };
+        TextBlock textblock = new TextBlock { Foreground = Brushes.Black, FontSize = 10, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Text = textbox.Text };
         //border with textblock
         border.Child = textblock;
         // setting up canvas location

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 using System.Text;
+using System.Net.Http.Json;
 
 namespace OCR_Translator.Services;
 
@@ -16,7 +17,7 @@ public class ApiService
     {
         _http = new HttpClient();
     }
-    public async Task SendBase64Async(string serializedContent)
+    public async Task<string> SendBase64Async(string serializedContent)
     {
         try
         {
@@ -26,13 +27,16 @@ public class ApiService
             {
                 MessageBox.Show("An error occured while sendint data to the Cloud Vision API");
             }
+
+            string result = await response.Content.ReadAsStringAsync();
+            return result;
         }
         catch (Exception ex)
         {
             MessageBox.Show(ex.ToString());
         }
 
-        // to do
+        return string.Empty;
     }
 
     public void SetApiKey(string key)

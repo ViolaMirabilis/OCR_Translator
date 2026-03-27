@@ -134,10 +134,8 @@ public class MainWindowViewModel : IOverlaySettings
         CloudVisionRequest request = new CloudVisionRequest(base64);
         // serializes it
         string serializedJson = request.Serialize();
-        // tmp
-        MessageBox.Show(serializedJson);
         // sends it asynchronously
-        await _apiService.SendBase64Async(serializedJson);
+        string response = await _apiService.SendBase64Async(serializedJson);
     }
 
     public void SetApiKey()

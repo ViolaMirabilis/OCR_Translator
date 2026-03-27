@@ -20,7 +20,7 @@ By default, LibreTranslate is going to run on `localhost:5000`.
 2) Obtain your Cloud Vision API key (to be done)
 * Head to [Google Cloud Console](https://console.cloud.google.com),  
 * In the top left corner "Select a project" and press "New project"    
-* <img width="300" height="115" alt="select_project" src="https://github.com/user-attachments/assets/74e28f23-d230-4315-ba6e-8927fb041147"/>    
+<img width="300" height="115" alt="select_project" src="https://github.com/user-attachments/assets/74e28f23-d230-4315-ba6e-8927fb041147"/>    
 
 <img width="219" height="118" alt="new_project" src="https://github.com/user-attachments/assets/3fd56228-2003-4e2c-a839-f0b3a821ec63" />  
 * Insert your project name and press "Next" and a pop up will appear, on which you simply select your project  

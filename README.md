@@ -34,11 +34,13 @@ and press "New project"
 * In bar on top of the website, look up `Cloud Vision API` and enable it
 
 <img width="585" height="116" alt="type_cloud_vision_api" src="https://github.com/user-attachments/assets/997a74c3-34a8-470b-9c06-315e7d59dbfb" />
+
 <img width="286" height="202" alt="enable_cloud vision_for_the_project" src="https://github.com/user-attachments/assets/66f3078e-c680-4f54-b6d0-662ae329960a" />
 
 * In the top left corner, head over to "Credentials" tab and create new credentials
 
 <img width="223" height="159" alt="head_over_to_credentials" src="https://github.com/user-attachments/assets/31ebea4d-7bb3-4d17-99c3-327afd72821e" />
+
 <img width="406" height="96" alt="create_credentials" src="https://github.com/user-attachments/assets/daade17d-233f-49df-80ed-df24a1dbd452" />
 
 * name your API key and in the textbox search for `Cloud Vision API`,

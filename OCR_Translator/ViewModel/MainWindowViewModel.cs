@@ -125,9 +125,14 @@ public class MainWindowViewModel : IOverlaySettings
 
     }
 
-    public void SendBase64ToApi(string base64)
+    public async Task SendBase64ToApi(string base64)
     {
-        // to do
+        // creates a new request
+        CloudVisionRequest request = new CloudVisionRequest(base64);
+        // serializes it
+        string serializedJson = request.Serialize();
+        // sends it asynchronously
+
     }
 
     #endregion

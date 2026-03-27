@@ -1,5 +1,8 @@
 ﻿namespace OCR_Translator.Model;
 
+/// <summary>
+/// Parsed from Google API response
+/// </summary>
 public class CloudVisionResponse
 {
     public class Rootobject

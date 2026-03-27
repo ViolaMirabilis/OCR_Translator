@@ -8,7 +8,7 @@ Whereas it is being designed to help with the gameflow in foreign language MMOs,
 * Cloud Vision API key.
 
 ## Setting up the project
-1) Install LibreTranslate by running the following commands
+1) Install LibreTranslate by running the following commands in the commandline
 ``` bash
 pip install libretranslate
 ```

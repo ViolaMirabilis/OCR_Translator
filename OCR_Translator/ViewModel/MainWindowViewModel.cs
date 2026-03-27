@@ -107,8 +107,12 @@ public class MainWindowViewModel : IOverlaySettings
         {
             // if overlay is not visible, it creates a new object once and assigns it to the private variable
             _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
-            _screenshotService.TakeScreenshot(GameWidth, GameHeight);
+            // converts image to base64
+            string base64 = _screenshotService.TakeScreenshot(GameWidth, GameHeight);
+            // shows the overlay immediately
             _overlayWindow.Show();
+            // makes the request to the API
+            SendBase64ToApi(base64);
 
             _isOverlayVisible = true;
         }
@@ -119,6 +123,11 @@ public class MainWindowViewModel : IOverlaySettings
             _overlayWindow.Hide();
         }
 
+    }
+
+    public void SendBase64ToApi(string base64)
+    {
+        // to do
     }
 
     #endregion

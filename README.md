@@ -28,7 +28,7 @@ and press "New project"
 <img width="219" height="118" alt="new_project" src="https://github.com/user-attachments/assets/3fd56228-2003-4e2c-a839-f0b3a821ec63" />
 
 * Insert your project name and press "Next" and a pop up will appear, on which you simply select your project
-* 
+
 <img width="319" height="138" alt="select_created_project" src="https://github.com/user-attachments/assets/4cb5940d-4f97-4d18-b339-046a84aefc50" />
 
 * In bar on top of the website, look up `Cloud Vision API` and enable it

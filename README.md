@@ -18,7 +18,9 @@ libretranslate
 By default, LibreTranslate is going to run on `localhost:5000`.
 
 2) Obtain your Cloud Vision API key (to be done)
-** to be done **
+* Head to [Google Cloud Console](https://console.cloud.google.com),
+* In the top left corner "Select a project" ![Alt text](images/select_project.png) and press "New project" ![Alt text](images/new_project.png),
+* ...
 
 ## Running the Overlay
 * During the first startup set up the `API key` from Cloud Vision API,

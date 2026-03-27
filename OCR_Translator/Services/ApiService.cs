@@ -29,6 +29,7 @@ public class ApiService
             }
 
             string result = await response.Content.ReadAsStringAsync();
+            System.IO.File.WriteAllText(@"C:\Users\zajac\Desktop\test_parse.txt", result);
             return result;
         }
         catch (Exception ex)

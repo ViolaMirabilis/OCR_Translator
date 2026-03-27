@@ -1,4 +1,4 @@
-#<img width="64" height="64" alt="ocr_logo" src="https://github.com/user-attachments/assets/77e737d8-9ecf-4a77-8ae8-e435e80260ab" /> OCR Translator Overlay
+# <img style="float: left; padding-right: 5px" height=35px width=35px src="logo.png"> OCR Translator Overlay
 ## Introduction
 A desktop overlay which appears after pressing an input defined by the user. The overlay takes a screenshot of what is currently on the screen, fetches all the text via the Cloud Vision API, translates it and puts textboxes in the coordinates of the original text.
 Whereas it is being designed to help with the gameflow in foreign language MMOs, the tool could also be used for everyday work and/or web browsing.

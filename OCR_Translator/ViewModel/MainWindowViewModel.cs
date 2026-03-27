@@ -29,6 +29,7 @@ public class MainWindowViewModel : IOverlaySettings
     private readonly ConfigService _configService;
     private readonly ScreenshotService _screenshotService;
     private readonly ApiService _apiService;
+    private readonly ProcessService _processService;
     #endregion
 
     #region Properties and fields
@@ -88,6 +89,7 @@ public class MainWindowViewModel : IOverlaySettings
         _configService = new ConfigService();
         _screenshotService = new ScreenshotService();
         _apiService = new ApiService();
+        _processService = new ProcessService();
         SubmitConfigChanges = new RelayCommand(async _ => await SubmitChanges(), _ => true);
 
         InitializeLanguagesCollection();
@@ -176,6 +178,8 @@ public class MainWindowViewModel : IOverlaySettings
         // invoking the event here
         // turns off the "startup" window
         OnSubmitClicked.Invoke();
+        // starts the libre translate service using the initials (e.g. --load-only en, es)
+        _processService.StartLibreTranslationProcess(TranslateFrom, TranslateTo);
 
         // write changes to config
         // make this window disappear and create the actual overlay

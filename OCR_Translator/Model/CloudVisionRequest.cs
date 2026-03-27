@@ -37,7 +37,7 @@ public class CloudVisionRequest
     public string Serialize()
     {
         // going bottom up
-        Feature feature = new Feature{ type = "TEXT_DOCUMENT_DETECTION"};
+        Feature feature = new Feature{ type = "DOCUMENT_TEXT_DETECTION"};
         // sets teh content to base64 (screenshot in bytes, converter to base64)
         Image image = new Image { content = Base64 };
         // creates a new array of "features", including the "feature" property

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
+using System.Text;
 
 namespace OCR_Translator.Services;
 
@@ -19,7 +20,7 @@ public class ApiService
     {
         try
         {
-            var response = await _http.PostAsync($"ApiEndpoint{ApiKey}", new StringContent(serializedContent));
+            var response = await _http.PostAsync($"{ApiEndpoint}{ApiKey}", new StringContent(serializedContent, Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode)
             {

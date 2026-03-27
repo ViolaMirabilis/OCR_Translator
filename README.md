@@ -8,7 +8,7 @@ Whereas it is being designed to help with the gameflow in foreign language MMOs,
 * Cloud Vision API key.
 
 ## Setting up the project
-* Install LibreTranslate by running the following commands
+# Install LibreTranslate by running the following commands
 ``` bash
 pip install libretranslate
 ```
@@ -17,7 +17,7 @@ libretranslate
 ```
 By default, LibreTranslate is going to run on `localhost:5000`.
 
-* Obtain your Cloud Vision API key (to be done)
+# Obtain your Cloud Vision API key (to be done)
 ** to be done **
 
 ## Running the Overlay

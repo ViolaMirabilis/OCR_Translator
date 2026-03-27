@@ -16,6 +16,7 @@ pip install libretranslate
 libretranslate
 ```
 By default, LibreTranslate is going to run on `localhost:5000`.
+
 2) Obtain your Cloud Vision API key (to be done)
 ** to be done **
 

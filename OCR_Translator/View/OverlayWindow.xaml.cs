@@ -49,9 +49,9 @@ public partial class OverlayWindow : Window
     }
     private void PutTextboxOnCanvas(OverlayTextbox textbox)
     {
-        Border border = new Border { Height = 12, Width = textbox.Text.Length * 7, CornerRadius = new CornerRadius(5), Background = Brushes.White, Opacity = 0.95 };
+        Border border = new Border {Padding = new Thickness(1), MaxWidth=250, MaxHeight=150, CornerRadius = new CornerRadius(5), Background = Brushes.White, Opacity = 0.95};
         // textblock that will be inside the border
-        TextBlock textblock = new TextBlock { Foreground = Brushes.Black, FontSize = 10, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Text = textbox.Text };
+        TextBlock textblock = new TextBlock { Foreground = Brushes.Black, FontSize = 10,  HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Text = textbox.Text, MaxWidth=250, TextWrapping=TextWrapping.Wrap, Margin = new Thickness(1)};
         //border with textblock
         border.Child = textblock;
         // setting up canvas location

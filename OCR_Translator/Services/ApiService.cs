@@ -17,6 +17,11 @@ public class ApiService
     {
         _http = new HttpClient();
     }
+    /// <summary>
+    /// Cloud Vision API endpoints
+    /// </summary>
+    /// <param name="serializedContent"></param>
+    /// <returns></returns>
     public async Task<string> SendBase64Async(string serializedContent)
     {
         try
@@ -25,7 +30,7 @@ public class ApiService
 
             if (!response.IsSuccessStatusCode)
             {
-                MessageBox.Show("An error occured while sendint data to the Cloud Vision API");
+                MessageBox.Show("An error occured while sending data to the Cloud Vision API");
             }
 
             string result = await response.Content.ReadAsStringAsync();
@@ -44,4 +49,34 @@ public class ApiService
     {
         ApiKey = key;
     }
+
+    public async Task<string> TranslateText(string allLinesCombined, string sourceLanguage, string targetLanguage)
+    {
+        // creating a new request, specifying content, source and target language
+        LibreTranslateRequest request = new LibreTranslateRequest {q = allLinesCombined, source = sourceLanguage, target = targetLanguage};
+        var serializedRequest = JsonSerializer.Serialize(request);
+        try
+        {
+            var response = await _http.PostAsync("http://127.0.0.1:5000/translate", new StringContent(serializedRequest, Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occured while sending data to the LibreTranslate API");
+            }
+
+            string result = await response.Content.ReadAsStringAsync();
+            var deserialized = JsonSerializer.Deserialize<LibreTranslateResponse>(result);
+
+            System.IO.File.WriteAllText(@"C:\Users\zajac\Desktop\lines.txt", deserialized.TranslatedText);
+            return deserialized.TranslatedText;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.ToString());
+        }
+
+        return string.Empty;
+    }
+
+
 }

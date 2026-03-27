@@ -136,6 +136,21 @@ public class MainWindowViewModel : IOverlaySettings
         string serializedJson = request.Serialize();
         // sends it asynchronously
         string response = await _apiService.SendBase64Async(serializedJson);
+        // deserializes the result from cloud vision API
+        _translationService.DeserializeCloudVisionResponse(response);
+        // gets the reference to the List<overlaytextbox> with full content 
+        List<OverlayTextbox> originalText = _translationService.textboxlist;
+        // combines the "Raw text" (sentences) into one, long string
+        string allLinesCombined = _translationService.CombineIntoOneString(originalText);
+
+        // send to translation API
+        string translatedText = await _apiService.TranslateText(allLinesCombined, TranslateFrom, TranslateTo);
+        // replace original with the translation
+        _translationService.ReplaceOriginalTextWithTranslation(originalText, translatedText);
+
+
+
+
     }
 
     public void SetApiKey()

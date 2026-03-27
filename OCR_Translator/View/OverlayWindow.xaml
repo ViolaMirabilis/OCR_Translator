@@ -13,8 +13,8 @@
         x:Name="Overlay">
 
     <Grid>
-        <Canvas x:Name="OverlayCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent">
-            <Label Content="OVERLAY IS ON" FontSize="14" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Canvas x:Name="OverlayCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightPink">
+            <Label Content="OVERLAY IS ON" FontSize="64" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Red"/>
         </Canvas>
     </Grid>
 </Window>

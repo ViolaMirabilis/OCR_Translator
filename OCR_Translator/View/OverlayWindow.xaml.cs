@@ -1,4 +1,5 @@
 ﻿using OCR_Translator.Interfaces;
+using System.Configuration;
 using System.Windows;
 
 namespace OCR_Translator.View;
@@ -21,7 +22,6 @@ public partial class OverlayWindow : Window
 
         InitializeComponent();
         InitializeSettingsFromConfig();
-
     }
 
     private void InitializeSettingsFromConfig()

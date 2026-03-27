@@ -27,6 +27,7 @@ public class MainWindowViewModel : IOverlaySettings
     private readonly TranslationService _translationService;
     private OverlayWindow _overlayWindow;
     private readonly ConfigService _configService;
+    private readonly ScreenshotService _screenshotService;
     #endregion
 
     #region Properties and fields
@@ -81,6 +82,7 @@ public class MainWindowViewModel : IOverlaySettings
     {
         _translationService = new TranslationService();
         _configService = new ConfigService();
+        _screenshotService = new ScreenshotService();
         SubmitConfigChanges = new RelayCommand(_ => SubmitChanges(), _ => true);
 
         InitializeLanguagesCollection();
@@ -105,6 +107,7 @@ public class MainWindowViewModel : IOverlaySettings
         {
             // if overlay is not visible, it creates a new object once and assigns it to the private variable
             _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
+            _screenshotService.TakeScreenshot(GameWidth, GameHeight);
             _overlayWindow.Show();
 
             _isOverlayVisible = true;

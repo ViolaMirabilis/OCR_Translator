@@ -14,7 +14,7 @@ public class ScreenshotService
     private string workingDirectory = Environment.CurrentDirectory;
     private string screenshotPath = string.Empty;
     
-    public string TakeScreenshot(int width, int height)
+    public string TakeScreenshotToBase64(int width, int height)
     {
         try
         {

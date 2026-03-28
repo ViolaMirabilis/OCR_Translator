@@ -3,11 +3,14 @@ using OCR_Translator.Interfaces;
 using OCR_Translator.Model;
 using OCR_Translator.Services;
 using OCR_Translator.View;
+using System.Buffers.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks.Dataflow;
 using System.Windows;
 using System.Windows.Interop;
 using static OCR_Translator.NativeWindowsHooks;
@@ -18,6 +21,7 @@ public class MainWindowViewModel : IOverlaySettings
 {
     // Action event which is triggered once the "Submit" button is pressed
     public event Action OnSubmitClicked;
+
     #region Configuration
     private readonly Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
     #endregion
@@ -90,7 +94,8 @@ public class MainWindowViewModel : IOverlaySettings
         _screenshotService = new ScreenshotService();
         _apiService = new ApiService();
         _processService = new ProcessService();
-        SubmitConfigChanges = new RelayCommand(async _ => await SubmitChanges(), _ => true);
+        SubmitConfigChanges = new RelayCommand(_ => SubmitChanges(), _ => true);
+
 
         InitializeLanguagesCollection();
         InitializeConfigFile();
@@ -108,27 +113,25 @@ public class MainWindowViewModel : IOverlaySettings
     }
     
     #region First launch window settings
-    public async Task ToggleOverlayVisibility()
+    public void ToggleOverlayVisibility()
     {
         // turns off the "settings" window once
         if (!_isOverlayVisible)
         {
             // takes a screenshot and converts image to base64
-            string base64 = _screenshotService.TakeScreenshot(GameWidth, GameHeight);
+            string base64 = _screenshotService.TakeScreenshotToBase64(GameWidth, GameHeight);
 
             // after the async request is completed, it shows the overlay immediately (without awaiting for the base64 first)
             // if overlay is not visible, it creates a new object once and assigns it to the private variable
-            //_overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight, originalText);
             _overlayWindow = new OverlayWindow(TextBoxFontSize, TextBoxColor, TextColor, GameWidth, GameHeight);
             
             // shows the overlay immediately
             _isOverlayVisible = true;
             _overlayWindow.Show();
-            
-            // makes the request to the API. 
-            await SendBase64ToApi(base64);
 
-            _overlayWindow.PutAllTextboxesOnCanvas(originalText); 
+            // makes the request to the API. 
+            // running it as fire and forget in order to make this class synchronous in general
+            _ = SendBase64ToApi(base64);
         }
         else
         {
@@ -141,8 +144,9 @@ public class MainWindowViewModel : IOverlaySettings
 
     public async Task SendBase64ToApi(string base64)
     {
-        // clears out the list
-        originalText = new List<OverlayTextbox>();
+        string allLinesCombined = string.Empty;     //reseting all the lines
+
+        
         // creates a new request
         CloudVisionRequest request = new CloudVisionRequest(base64);
         // serializes it
@@ -154,15 +158,18 @@ public class MainWindowViewModel : IOverlaySettings
         // gets the reference to the List<overlaytextbox> with full content 
         originalText = _translationService.textboxlist;
         // combines the "Raw text" (sentences) into one, long string
-        string allLinesCombined = _translationService.CombineIntoOneString(originalText);
+        allLinesCombined = _translationService.CombineIntoOneString(originalText);
 
         // send to translation API
         string translatedText = await _apiService.TranslateText(allLinesCombined, TranslateFrom, TranslateTo);
         // replace original with the translation
         _translationService.ReplaceOriginalTextWithTranslation(originalText, translatedText);
 
-        allLinesCombined = string.Empty;     //reseting all the lines
-        // replacing it with a new list
+        _overlayWindow.PutAllTextboxesOnCanvas(originalText);
+
+        // clears out the list
+        originalText.Clear();
+
     }
 
     public void SetApiKey()
@@ -173,7 +180,7 @@ public class MainWindowViewModel : IOverlaySettings
     #endregion
 
     #region Commands Logic
-    public async Task SubmitChanges()
+    public void SubmitChanges()
     {
         // invoking the event here
         // turns off the "startup" window
@@ -183,7 +190,7 @@ public class MainWindowViewModel : IOverlaySettings
 
         // write changes to config
         // make this window disappear and create the actual overlay
-        await ToggleOverlayVisibility();
+        ToggleOverlayVisibility();
         _configService.SaveConfig(this);
     }
     #endregion

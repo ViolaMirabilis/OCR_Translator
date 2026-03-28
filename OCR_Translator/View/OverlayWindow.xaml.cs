@@ -26,7 +26,7 @@ public partial class OverlayWindow : Window
         TextColor = txtColor;
         GameWidth = width;
         GameHeight = height;
-        
+
         InitializeSettingsFromConfig();
     }
 
@@ -46,6 +46,7 @@ public partial class OverlayWindow : Window
         {
             PutTextboxOnCanvas(sentence);
         }
+
     }
     private void PutTextboxOnCanvas(OverlayTextbox textbox)
     {
@@ -59,5 +60,7 @@ public partial class OverlayWindow : Window
         Canvas.SetLeft(border, textbox.X);
         OverlayCanvas.Children.Add(border);
     }
+
+
 
 }

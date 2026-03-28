@@ -15,6 +15,7 @@ public class TranslationService
     public ObservableCollection<Language> InitialiseLanguageCollection()
     {
         return new ObservableCollection<Language> {
+            new Language { Name = "Auto detect", Initials = "auto" },
             new Language { Name = "English", Initials = "en" },
             new Language { Name = "Thai", Initials = "th" },
             new Language { Name = "Korean", Initials = "ko" } };
@@ -93,7 +94,14 @@ public class TranslationService
             allLinesCombined.Append($"{word.Text}\n");
         }
 
+        WriteToFile(allLinesCombined.ToString());
         return allLinesCombined.ToString();
+    }
+
+    public void WriteToFile(string stringsCombined)
+    {
+        string path = @"C:\Users\zajac\Desktop\dump.txt";
+        System.IO.File.WriteAllText(path, stringsCombined);
     }
 
     public void ReplaceOriginalTextWithTranslation(List<OverlayTextbox> textboxlist, string allLinesCombined)

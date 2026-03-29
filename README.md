@@ -1,7 +1,7 @@
 # <img style="float: left; padding-right: 5px" height=64px width=64px src="ocr_logo_128.png"> OCR Translator Overlay
 ## Introduction
 A desktop overlay which appears after pressing an input defined by the user. The overlay takes a screenshot of what is currently on the screen, fetches all the text via the Cloud Vision API, translates it and puts textboxes in the coordinates of the original text.
-Whereas it is being designed to help with the gameflow in foreign language MMOs, the tool could also be used for everyday work and/or web browsing.
+Whereas it is being designed to help with the gameflow in foreign language MMOs, the tool could also be used for everyday work and/or web browsing and can be used a base for different projects which would benefit from an on-screen overlay.
 
 ## Prerequisites
 * LibreTranslate `(Python >= 3.8 needed)`,

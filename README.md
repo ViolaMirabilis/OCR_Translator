@@ -40,5 +40,15 @@ By default, LibreTranslate is going to run on `localhost:5000`.
 * During the first startup set up the `API key` from Cloud Vision API,
 * When launched, the `LibreTranslate` launch script is ran automatically; thus no need to call it manually each time.
 * After assigning a `Show Overlay` button, simply press it to display the overlay over your window.
-  
+
+## In-game samples
+
+<img width="435" height="308" alt="sample 1" src="https://github.com/user-attachments/assets/4cd39cf0-7c15-4af2-b5f7-2e89a15f1f0f" />
+
+<img width="843" height="497" alt="sample 2" src="https://github.com/user-attachments/assets/1d874894-30a0-4e7d-9a1c-774abcc3c98b" />
+<img width="313" height="295" alt="sample 3" src="https://github.com/user-attachments/assets/71d90f82-7502-4840-89d0-8d3e6d61ef0d" />
+
+
+
+
 

@@ -3,6 +3,10 @@
 A desktop overlay which appears after pressing an input defined by the user. The overlay takes a screenshot of what is currently on the screen, fetches all the text via the Cloud Vision API, translates it and puts textboxes in the coordinates of the original text.
 Whereas it is being designed to help with the gameflow in foreign language MMOs, the tool could also be used for everyday work and/or web browsing and can be used a base for different projects which would benefit from an on-screen overlay. **The project is still in development and mostly supports Thai to English translation; however, a few tweaks will be implemented shortly in order to provide readability from/to other languages.**
 
+<img width="320" alt="sample 1" src="https://github.com/user-attachments/assets/4cd39cf0-7c15-4af2-b5f7-2e89a15f1f0f" />
+<img width="320" alt="sample 2" src="https://github.com/user-attachments/assets/1d874894-30a0-4e7d-9a1c-774abcc3c98b" />
+<img width="320" alt="sample 3" src="https://github.com/user-attachments/assets/71d90f82-7502-4840-89d0-8d3e6d61ef0d" />
+
 ## Prerequisites
 * LibreTranslate `(Python >= 3.8 needed)`,
 * Cloud Vision API key.
@@ -41,12 +45,6 @@ By default, LibreTranslate is going to run on `localhost:5000`.
 * When launched, the `LibreTranslate` launch script is ran automatically; thus no need to call it manually each time.
 * After assigning a `Show Overlay` button, simply press it to display the overlay over your window.
 
-## In-game samples
-
-<img width="435" height="308" alt="sample 1" src="https://github.com/user-attachments/assets/4cd39cf0-7c15-4af2-b5f7-2e89a15f1f0f" />
-
-<img width="843" height="497" alt="sample 2" src="https://github.com/user-attachments/assets/1d874894-30a0-4e7d-9a1c-774abcc3c98b" />
-<img width="313" height="295" alt="sample 3" src="https://github.com/user-attachments/assets/71d90f82-7502-4840-89d0-8d3e6d61ef0d" />
 
 
 
